@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
 import Welcome from '../components/Welcome.vue'
+import Admin from '../components/admin/Admin.vue'
 import Cate from '../components/cate/Cate.vue'
 import Book from '../components/book/Book.vue'
 
@@ -21,11 +22,12 @@ const routes = [{
         path: '/home',
         name: 'Home',
         component: Home,
-        redirect: '/welcome',
+        redirect: '/cate',
         children: [
             { path: '/welcome', component: Welcome },
             { path: '/cate', component: Cate },
             { path: '/book', component: Book },
+            { path: '/admin', component: Admin },
         ]
     }
 ]
@@ -38,7 +40,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.path === '/login') return next()
     const tokenStr = window.sessionStorage.getItem('token');
-    // if (!tokenStr) return next('/login');
+    if (!tokenStr) return next('/login');
     next();
 })
 

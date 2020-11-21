@@ -9,8 +9,8 @@ import axios from 'axios';
 axios.defaults.baseURL = '/';
 axios.interceptors.request.use(config => {
     //为请求头对象，添加token验证的authorization字段
-    // config.headers.Authorization = window.sessionStorage.getItem('token');
-    // console.log("header-config", config);
+    config.headers.Authorization = window.sessionStorage.getItem('token');
+    console.log("header-config", config);
 
     return config
 })

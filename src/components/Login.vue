@@ -3,9 +3,9 @@
     <div class="login_box">
       <div class="title">登录</div>
       <div class="content">
-        <el-form :model="login_form" :rules="login_rules" ref='login_form_ref'>
-          <el-form-item prop="name">
-            <input class="input" v-model="login_form.name" placeholder="用户名" />
+        <el-form :model="login_form" :rules="login_rules" ref="login_form_ref">
+          <el-form-item prop="account">
+            <input class="input" v-model="login_form.account" placeholder="用户名" />
           </el-form-item>
           <el-form-item prop="passport">
             <input type="password" class="input" v-model="login_form.passport" placeholder="密码" />
@@ -25,23 +25,37 @@ export default {
   data() {
     return {
       login_form: {
-        name: '',
+        account: undefined,
         passport: undefined
       },
       login_rules: {
-          name: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          passport: [
-              { required: true, message: '请输入密码', trigger: 'blur' }
-          ]
+        account: [
+          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        ],
+        passport: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
     };
   },
   methods: {
-    on_click() {
-      this.$router.push('/home')
+    async on_click() {
+      try {
+        const res = await this.$http.post("admin/login", this.login_form);
+        console.log(res);
+
+        if (res.status !== 200) {
+          this.$message.error("用户名或密码错误");
+          
+          return;
+        }
+        //存储token
+          window.sessionStorage.setItem("token", res.data.token);
+          this.$router.push('/home')
+      } catch (error) {
+        this.$message.error("用户名或密码错误");
+      }
+
+      
     }
   }
 };

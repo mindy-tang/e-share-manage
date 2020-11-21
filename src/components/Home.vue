@@ -2,7 +2,7 @@
   <el-container class="home-container">
     <!-- 顶部 -->
     <el-header>
-      <span>E-share后台管理系统</span>
+      <span class="title">E-share后台管理系统</span>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
     <el-container>
@@ -17,6 +17,9 @@
           <el-menu-item index="/book">
             <!-- <i class="el-icon-menu"></i> -->
             <span>书籍管理</span>
+          </el-menu-item>
+           <el-menu-item index="/admin">
+            <span>用户管理</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -33,7 +36,8 @@ export default {
   name: "Home",
   methods: {
     logout() {
-      this.$message("退出登录");
+      window.sessionStorage.clear();
+      this.$router.push('/login');
     }
   }
 };
@@ -42,6 +46,10 @@ export default {
 <style scoped>
 .home-container {
   height: 100%;
+}
+.title {
+  font-weight: bold;
+  color: #ffffff;
 }
 .el-header {
   background-color: #628172;
